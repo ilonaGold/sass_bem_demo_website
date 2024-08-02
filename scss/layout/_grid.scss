@@ -1,0 +1,79 @@
+@use '../util' as u;
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto auto;
+  gap: 40px;
+  //   max-width: 1000px;
+  //   width: min(100%, 1000px);
+  width: min(100% - 40px, 1000px);
+  //   margin: 0 auto;
+  margin-inline: auto;
+  //   padding-left: 20px;
+  //   padding-right: 20px;
+
+  // For larger screens with media queries
+
+  //   @media (min-width: 900px) {
+  //     grid-template-columns: 2fr 1fr;
+  //     grid-template-rows: auto;
+  //   }
+
+  // For larger screens with mixin()
+
+  @include u.breakpoint(large) {
+    grid-template-columns: 2fr 1fr;
+    grid-template-rows: auto;
+  }
+
+  &__main,
+  &__sidebar {
+    padding: 2.5rem;
+  }
+
+  &__main {
+    background-color: hsl(240, 88%, 41%);
+
+    // Observe the order to avoid cascading!
+    @include u.breakpoint(medium) {
+      background-color: hsl(120, 82%, 17%);
+    }
+
+    @include u.breakpoint(large) {
+      background-color: hsl(39, 87%, 50%);
+    }
+  }
+
+  &__sidebar {
+    text-align: center;
+
+    // @include u.breakpoint(large) {
+    //   text-align: left;
+    // }
+
+    @include u.breakpoint-down(medium) {
+      text-align: center;
+    }
+
+    @include u.breakpoint-down(small) {
+      text-align: right;
+    }
+  }
+
+  // Except padding this section might be placed in the colors file in the globals folder
+  &__widget {
+    background-color: hsl(300, 73%, 45%);
+    // padding: 1px; // margin collapsing
+    padding: u.rem(16);
+
+    &--green {
+      @extend .grid__widget;
+      background-color: hsl(120, 94%, 19%);
+    }
+    // helper or utility class
+    &.yellow {
+      background-color: hsl(60, 79%, 47%);
+    }
+  }
+}
